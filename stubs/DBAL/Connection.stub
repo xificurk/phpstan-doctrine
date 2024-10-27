@@ -2,9 +2,11 @@
 
 namespace Doctrine\DBAL;
 
+use Closure;
 use Doctrine\DBAL\Cache\CacheException;
 use Doctrine\DBAL\Cache\QueryCacheProfile;
 use Doctrine\DBAL\Types\Type;
+use Throwable;
 
 class Connection
 {
@@ -60,5 +62,16 @@ class Connection
      * @throws Exception
      */
     public function executeCacheQuery($sql, $params, $types, QueryCacheProfile $qcp): Result;
+
+    /**
+     * @param-immediately-invoked-callable $func
+     * @param Closure(self): T $func
+     * @return T
+     *
+     * @template T
+     *
+     * @throws Throwable
+     */
+    public function transactional(Closure $func);
 
 }
